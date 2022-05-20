@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Muhammad Affan Qamar" />
+
+
+<title>Affan’s WebJournal</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MyLabJournal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Index</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_tidyverse.html">01 Tidyverse</a>
+    </li>
+    <li>
+      <a href="02_data_acquisition.html">02 Data Acquisition</a>
+    </li>
+    <li>
+      <a href="03_data_wrangling.html">03 Data Wrangling</a>
+    </li>
+    <li>
+      <a href="04_data_visualization.html">04 Data Visualization</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="05_class_notes.html">Class notes</a>
+</li>
+<li>
+  <a href="06_links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Affan’s WebJournal</h1>
+<h4 class="author">Muhammad Affan Qamar</h4>
+<h4 class="date">09-May-2022</h4>
+
+</div>
+
+
+<style type="text/css">
+body {
+  color: black;
+  background-color: #cde5e6;
+  background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+  font-family:'Open Sans',sans-serif;
+}
+.list-group-item, .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  color: black;
+  background-color: #a0f26d;
+  border-color: #black;
+  border-width: 6px;
+}
+</style>
+<p>Last compiled: 2022-05-11</p>
+<div id="data-science-at-tuhh" class="section level1">
+<h1>Data Science at TUHH ——————————————————</h1>
+</div>
+<div id="sales-analysis--" class="section level1">
+<h1>SALES ANALYSIS —-</h1>
+<div id="challenge-summary" class="section level2">
+<h2>Challenge Summary</h2>
+<ol style="list-style-type: decimal">
+<li>Analyze the sales by location (state) with a bar plot. Since state
+and city are multiple features (variables), they should be split. Which
+state has the highest revenue? Replace your bike_orderlines_wrangled
+object with the newly wrangled object (with the columns state and
+city).</li>
+</ol>
+<p>2.Analyze the sales by location and year (facet_wrap). Because there
+are states with bike stores, you should get 12 plots.</p>
+</div>
+</div>
+<div id="load-libraries--" class="section level1">
+<h1>1.0 Load libraries —-</h1>
+<pre class="r"><code>library(tidyverse)
+library(jsonlite)
+library(xml2)
+library(readxl)
+library(httr)
+library(rvest)
+library(tidyquant)
+library(broom)
+library(umap)
+library(DT)
+library(ggrepel)
+library(lubridate)
+library(wesanderson)
+library(ggplot2)</code></pre>
+</div>
+<div id="importing-files--" class="section level1">
+<h1>2.0 Importing Files —-</h1>
+<pre class="r"><code>bikes_tbl &lt;- read_excel(path = &quot;C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/bikes.xlsx&quot;)
+
+orderlines_tbl &lt;- read_excel(path = &quot;C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/orderlines.xlsx&quot;)
+
+bikeshops_tbl  &lt;- read_excel(path = &quot;C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx&quot; )</code></pre>
+</div>
+<div id="examining-data--" class="section level1">
+<h1>3.0 Examining Data —-</h1>
+<pre class="r"><code>orderlines_tbl</code></pre>
+<pre><code>## # A tibble: 15,644 × 7
+##    ...1  order.id order.line order.date          customer.id product.id quantity
+##    &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;dttm&gt;                    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1 1            1          1 2015-01-07 00:00:00           2       2681        1
+##  2 2            1          2 2015-01-07 00:00:00           2       2411        1
+##  3 3            2          1 2015-01-10 00:00:00          10       2629        1
+##  4 4            2          2 2015-01-10 00:00:00          10       2137        1
+##  5 5            3          1 2015-01-10 00:00:00           6       2367        1
+##  6 6            3          2 2015-01-10 00:00:00           6       1973        1
+##  7 7            3          3 2015-01-10 00:00:00           6       2422        1
+##  8 8            3          4 2015-01-10 00:00:00           6       2655        1
+##  9 9            3          5 2015-01-10 00:00:00           6       2247        1
+## 10 10           4          1 2015-01-11 00:00:00          22       2408        1
+## # … with 15,634 more rows</code></pre>
+<pre class="r"><code>bikes_tbl</code></pre>
+<pre><code>## # A tibble: 231 × 9
+##    bike.id model    model.year frame.material weight price category gender url  
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1    2875 Aeroad …       2020 carbon           7.6   4579 Road - … unisex http…
+##  2    2873 Aeroad …       2020 carbon           7.27  6919 Road - … unisex http…
+##  3    2874 Aeroad …       2020 carbon           7.1   6429 Road - … unisex http…
+##  4    2876 Aeroad …       2020 carbon           7.73  5069 Road - … unisex http…
+##  5    2877 Aeroad …       2020 carbon           7.83  3609 Road - … unisex http…
+##  6    2225 Aeroad …       2019 carbon           6.8   6139 Road - … unisex http…
+##  7    2091 Aeroad …       2019 carbon           6.8   5359 Road - … unisex http…
+##  8    2086 Aeroad …       2021 carbon           7.6   2629 Road - … unisex http…
+##  9    2088 Aeroad …       2020 carbon           7.3   3699 Road - … unisex http…
+## 10    2120 Aeroad …       2020 carbon           7.2   3219 Road - … female http…
+## # … with 221 more rows</code></pre>
+</div>
+<div id="joining-data--" class="section level1">
+<h1>4.0 Joining Data —-</h1>
+<p>If the data has no common column name, you can provide each column
+name in the “by” argument. For example, by = c(“a” = “b”) will match x.a
+to y.b. The order of the columns has to match the order of the
+tibbles).</p>
+<pre class="r"><code>bike_orderlines_joined &lt;- orderlines_tbl %&gt;%
+  left_join(bikes_tbl, by = c(&quot;product.id&quot; = &quot;bike.id&quot;)) %&gt;%
+  left_join(bikeshops_tbl, by = c(&quot;customer.id&quot; = &quot;bikeshop.id&quot;))</code></pre>
+</div>
+<div id="wrangling-data--" class="section level1">
+<h1>5.0 Wrangling Data —-</h1>
+<pre class="r"><code>bike_orderlines_wrangled &lt;- bike_orderlines_joined %&gt;%
+                             # Split up location data for Part 1
+                            separate(col    = location,
+                                     into   = c(&quot;city&quot;, &quot;state&quot;),
+                                     sep    = &quot;, &quot;) %&gt;%
+                            # Split up date data for Part 2
+                            separate(col = order.date, 
+                                     into = c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;),
+                                     sep = &quot;-&quot;) %&gt;%
+                            # Calculate and add total price data
+                            mutate(total.price = price * quantity)</code></pre>
+</div>
+<div id="business-insights--" class="section level1">
+<h1>6.0 Business Insights —-</h1>
+<div id="part-1-analyze-the-sales-by-locationstate"
+class="section level2">
+<h2>Part 1: Analyze the Sales by location(state)</h2>
+<p>Analyze the sales by location (state) with a bar plot. Since state
+and city are multiple features (variables), they should be split. Which
+state has the highest revenue? Replace your bike_orderlines_wrangled
+object with the newly wrangled object (with the columns state and
+city).</p>
+<pre class="r"><code>#Create frame with price data by State
+
+sales_by_state &lt;- bike_orderlines_wrangled %&gt;%
+  # Select relevant data (state and total price)
+  select(state,total.price) %&gt;%
+  # Sum all the prices for each state
+  group_by(state) %&gt;%
+  summarize(sales=sum(total.price)) %&gt;%
+  # draw labels for bar graph
+  mutate(sales_text = scales::dollar(sales, big.mark = &quot;.&quot;, 
+                                     decimal.mark = &quot;,&quot;, 
+                                     prefix = &quot;&quot;, 
+                                     suffix = &quot; €&quot;))
+
+# making it presentable
+
+sales_by_state %&gt;% ggplot(aes(x=state, y=sales)) +
+  geom_col(fill = wes_palette(&quot;Darjeeling1&quot;, 4)[4]) +
+                  geom_label(aes(label = sales_text)) + 
+                  scale_y_continuous(labels = scales::dollar_format(big.mark = &quot;.&quot;, suffix = &quot; €&quot;)) +
+                  labs(
+                       title = &quot;Lifetime Sales&quot;,
+                       subtitle = &quot;Overview of lifetime sales in German states&quot;) +
+                  xlab(&quot;German State&quot;) + ylab(&quot;Lifetime Sales&quot;) +
+                  theme(axis.text.x = element_text(angle = 47, hjust = 1))</code></pre>
+<p><img src="01_tidyverse_files/figure-html/plot-1.png" width="960" /></p>
+</div>
+</div>
+<div id="part-2the-sales-by-location-and-year" class="section level1">
+<h1>Part 2:The sales by location and year</h1>
+<p>Analyze the sales by location and year (facet_wrap). Because there
+are 12 states with bike stores, you should get 12 plots.</p>
+<pre class="r"><code># Create frame with price data by states and by year
+sales_by_state_by_year &lt;- bike_orderlines_wrangled %&gt;% 
+                        # Select relevant data (state, year, total price)
+                        select(year, state, total.price) %&gt;%
+                        # Group by year and sum the order totals for each state
+                        group_by(year, state) %&gt;%
+                        summarize(sales=sum(total.price)) %&gt;%
+                        # Making it presentable
+                        mutate(sales_text = scales::dollar(sales, big.mark = &quot;.&quot;, 
+                                   decimal.mark = &quot;,&quot;, 
+                                   prefix = &quot;&quot;, 
+                                   suffix = &quot; €&quot;))
+
+sales_by_state_by_year %&gt;%  ggplot(aes(x = year, y = sales, fill = state)) +
+  geom_col() +
+  facet_wrap(~ state) +
+  scale_y_continuous(labels = scales::dollar_format(big.mark = &quot;.&quot;, 
+                                                                              suffix = &quot; €&quot;)) +
+  labs(
+    title = &quot;Revenue by year&quot;,
+    subtitle = &quot;Revenue in each State by year&quot;) +
+  scale_fill_manual(values = wes_palette(&quot;Darjeeling1&quot;, 13,
+                                         type = &quot;continuous&quot;)) +
+  theme(legend.position = &quot;none&quot;,
+        axis.text.x = element_text(angle = 47, hjust = 1))</code></pre>
+<p><img src="01_tidyverse_files/figure-html/t1p2-1.png" width="960" /></p>
+<p>Done !!</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

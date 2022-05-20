@@ -1,0 +1,188 @@
+---
+title: "Affan's WebJournal"
+author: "Muhammad Affan Qamar"
+date: "09-May-2022"
+output:
+ html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 4
+    #code_folding: hide
+
+---
+
+```{css, echo=FALSE}
+body {
+  color: black;
+  background-color: #cde5e6;
+  background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+  font-family:'Open Sans',sans-serif;
+}
+.list-group-item, .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  color: black;
+  background-color: #a0f26d;
+  border-color: #black;
+  border-width: 6px;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE,
+  message=FALSE,
+  warning=FALSE,
+  cache=TRUE
+  )
+```
+
+Last compiled: `r Sys.Date()`
+
+# Data Science at TUHH ------------------------------------------------------
+# SALES ANALYSIS ----
+## Challenge Summary 
+1. Analyze the sales by location (state) with a bar plot. Since state and city are multiple features (variables), they should be split. Which state has the highest revenue? Replace your bike_orderlines_wrangled object with the newly wrangled object (with the columns state and city).
+
+2.Analyze the sales by location and year (facet_wrap). Because there are states with bike stores, you should get 12 plots.
+
+# 1.0 Load libraries ----
+
+```{r t1p0, fig.height=7, fig.width=10, message=FALSE}
+library(tidyverse)
+library(jsonlite)
+library(xml2)
+library(readxl)
+library(httr)
+library(rvest)
+library(tidyquant)
+library(broom)
+library(umap)
+library(DT)
+library(ggrepel)
+library(lubridate)
+library(wesanderson)
+library(ggplot2)
+
+```
+
+
+# 2.0 Importing Files ----
+
+```{r}
+
+bikes_tbl <- read_excel(path = "C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/bikes.xlsx")
+
+orderlines_tbl <- read_excel(path = "C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/orderlines.xlsx")
+
+bikeshops_tbl  <- read_excel(path = "C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx" )
+
+```
+# 3.0 Examining Data ----
+
+```{r}
+orderlines_tbl
+bikes_tbl
+
+```
+
+# 4.0 Joining Data ----
+
+If the data has no common column name, you can provide each column name in the "by" argument. For example, by = c("a" = "b") will match x.a to y.b. The order of the columns has to match the order of the tibbles).
+
+```{r}
+bike_orderlines_joined <- orderlines_tbl %>%
+  left_join(bikes_tbl, by = c("product.id" = "bike.id")) %>%
+  left_join(bikeshops_tbl, by = c("customer.id" = "bikeshop.id"))
+
+```
+
+# 5.0 Wrangling Data ----
+
+```{r}
+bike_orderlines_wrangled <- bike_orderlines_joined %>%
+                             # Split up location data for Part 1
+                            separate(col    = location,
+                                     into   = c("city", "state"),
+                                     sep    = ", ") %>%
+                            # Split up date data for Part 2
+                            separate(col = order.date, 
+                                     into = c("year", "month", "day"),
+                                     sep = "-") %>%
+                            # Calculate and add total price data
+                            mutate(total.price = price * quantity)
+
+```
+
+# 6.0 Business Insights ----
+
+
+## Part 1: Analyze the Sales by location(state)
+Analyze the sales by location (state) with a bar plot. Since state and city are multiple features (variables), they should be split. Which state has the highest revenue? Replace your bike_orderlines_wrangled object with the newly wrangled object (with the columns state and city).
+
+```{r plot, fig.width=10, fig.height=7, message=FALSE}
+#Create frame with price data by State
+
+sales_by_state <- bike_orderlines_wrangled %>%
+  # Select relevant data (state and total price)
+  select(state,total.price) %>%
+  # Sum all the prices for each state
+  group_by(state) %>%
+  summarize(sales=sum(total.price)) %>%
+  # draw labels for bar graph
+  mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                     decimal.mark = ",", 
+                                     prefix = "", 
+                                     suffix = " €"))
+
+# making it presentable
+
+sales_by_state %>% ggplot(aes(x=state, y=sales)) +
+  geom_col(fill = wes_palette("Darjeeling1", 4)[4]) +
+                  geom_label(aes(label = sales_text)) + 
+                  scale_y_continuous(labels = scales::dollar_format(big.mark = ".", suffix = " €")) +
+                  labs(
+                       title = "Lifetime Sales",
+                       subtitle = "Overview of lifetime sales in German states") +
+                  xlab("German State") + ylab("Lifetime Sales") +
+                  theme(axis.text.x = element_text(angle = 47, hjust = 1))
+
+```
+
+
+# Part 2:The sales by location and year 
+Analyze the sales by location and year (facet_wrap). Because there are 12 states with bike stores, you should get 12 plots.
+
+```{r t1p2, fig.height=7, fig.width=10, message=FALSE}
+# Create frame with price data by states and by year
+sales_by_state_by_year <- bike_orderlines_wrangled %>% 
+                        # Select relevant data (state, year, total price)
+                        select(year, state, total.price) %>%
+                        # Group by year and sum the order totals for each state
+                        group_by(year, state) %>%
+                        summarize(sales=sum(total.price)) %>%
+                        # Making it presentable
+                        mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                   decimal.mark = ",", 
+                                   prefix = "", 
+                                   suffix = " €"))
+
+sales_by_state_by_year %>%  ggplot(aes(x = year, y = sales, fill = state)) +
+  geom_col() +
+  facet_wrap(~ state) +
+  scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
+                                                                              suffix = " €")) +
+  labs(
+    title = "Revenue by year",
+    subtitle = "Revenue in each State by year") +
+  scale_fill_manual(values = wes_palette("Darjeeling1", 13,
+                                         type = "continuous")) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 47, hjust = 1))
+
+```
+
+Done !!

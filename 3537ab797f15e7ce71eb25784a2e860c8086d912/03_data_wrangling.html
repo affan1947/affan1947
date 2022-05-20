@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Muhammad Affan Qamar" />
+
+<meta name="date" content="2021-05-11" />
+
+<title>03 Data Wrangling</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.23/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MyLabJournal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Index</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_tidyverse.html">01 Tidyverse</a>
+    </li>
+    <li>
+      <a href="02_data_acquisition.html">02 Data Acquisition</a>
+    </li>
+    <li>
+      <a href="03_data_wrangling.html">03 Data Wrangling</a>
+    </li>
+    <li>
+      <a href="04_data_visualization.html">04 Data Visualization</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="05_class_notes.html">Class notes</a>
+</li>
+<li>
+  <a href="06_links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">03 Data Wrangling</h1>
+<h4 class="author">Muhammad Affan Qamar</h4>
+<h4 class="date">2021-05-11</h4>
+
+</div>
+
+
+<style type="text/css">
+body {
+  color: black;
+  background-color: #cde5e6;
+  background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+  font-family:'Open Sans',sans-serif;
+}
+.list-group-item, .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  color: black;
+  background-color: #a0f26d;
+  border-color: #black;
+  border-width: 6px;
+}
+</style>
+<p>Last compiled: 2022-05-11</p>
+<div id="data-science-at-tuhh" class="section level1">
+<h1>Data Science at TUHH ——————————————————</h1>
+</div>
+<div id="data-wrangling-challenges" class="section level1">
+<h1>Data Wrangling Challenges</h1>
+<div id="import-libraries" class="section level3">
+<h3>Import Libraries</h3>
+<pre class="r"><code>library(tidyverse)
+library(vroom)
+library(data.table)
+library(lubridate)
+library(tictoc)
+library(wesanderson)
+library(jsonlite)
+library(readxl)
+library(DT)
+library(yaml)
+library(purrr)
+library(dplyr)
+library(DT)
+library(RSQLite)
+library(httr)
+library(xopen)</code></pre>
+</div>
+</div>
+<div id="part-1-top-patents" class="section level1">
+<h1>Part 1: Top Patents</h1>
+<p>10 US companies with the most assigned/granted patents.</p>
+<pre class="r"><code>col_types &lt;- list(
+  id = col_character(),
+  type = col_character(),
+  number = col_character(),
+  country = col_character(),
+  date = col_date(&quot;%Y-%m-%d&quot;),
+  abstract = col_character(),
+  title = col_character(),
+  kind = col_character(),
+  num_claims = col_double(),
+  filename = col_character(),
+  withdrawn = col_double()
+)</code></pre>
+<pre class="r"><code>old_dir &lt;- getwd()
+setwd(&quot;C:/Users/Muhammad Affan Qamar/Documents/GitHub/bdsc-affan1947/Patent_data_reduced&quot;)
+patent_tb1 &lt;- vroom(
+  file       = &#39;patent.tsv&#39;,
+  delim      = &quot;\t&quot;,
+  col_types  = col_types,
+  na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+  )
+
+assignee_tb1 &lt;- vroom(
+            file       = &#39;assignee.tsv&#39;, 
+            delim      = &quot;\t&quot;, 
+            col_types  = col_types,
+            na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+        )
+
+patent_assignee_tb1 &lt;- vroom(
+            file       = &#39;patent_assignee.tsv&#39;, 
+            delim      = &quot;\t&quot;, 
+            col_types  = col_types,
+            na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;))
+
+uspc_tb1 &lt;- vroom(
+            file       = &#39;uspc.tsv&#39;, 
+            delim      = &quot;\t&quot;, 
+            col_types  = col_types,
+            na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)) %&gt;%
+            transform(patent_id = as.character(patent_id))
+
+
+setwd(old_dir)
+
+# Combine all of the databases into one large table;
+wrangled &lt;- assignee_tb1 %&gt;%
+            left_join(patent_assignee_tb1, by = c(&quot;id&quot; = &quot;assignee_id&quot;)) %&gt;%
+            left_join(patent_tb1, by = c(&quot;patent_id&quot; = &quot;id&quot;)) %&gt;%
+            left_join(uspc_tb1, by = &quot;patent_id&quot;)
+
+# Get the Organizations with the most patents using table() and sort()
+tops &lt;- sort(table(wrangled$organization), decreasing = T)[1:100] %&gt;%
+          as.data.frame() %&gt;%
+          mutate(Var1 = Var1 %&gt;% str_to_title())
+
+
+color &lt;- toString(wes_palette(&quot;Darjeeling1&quot;, 4, type=&quot;discrete&quot;)[4])
+longString = paste(&quot;$(this.api().table().header()).css({&#39;color&#39;:&#39;#010101&#39;, &#39;background-color&#39; : &#39;&quot;, color, &quot;&#39;});&quot;)
+
+datatable(tops, class = &#39;cell-border stripe&#39;, 
+          rownames = FALSE,
+          colnames = c(&#39;Organization&#39;, &#39;Number of Patents (2014)&#39;),
+          options = list( initComplete = JS( &quot;function(settings, json) {&quot;,longString,&quot;}&quot;)))</code></pre>
+<div id="htmlwidget-c7675b897850d6863ba7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7675b897850d6863ba7">{"x":{"filter":"none","vertical":false,"data":[["International Business Machines Corporation","Samsung Electronics Co., Ltd.","Canon Kabushiki Kaisha","Sony Corporation","Microsoft Corporation","Qualcomm Incorporated","Kabushiki Kaisha Toshiba","Google Inc.","Lg Electronics Inc.","Panasonic Corporation","Apple Inc.","At&amp;T Intellectual Property I, L.p.","Taiwan Semiconductor Manufacturing Company, Ltd.","Fujitsu Limited","General Electric Company","Intel Corporation","Samsung Display Co., Ltd.","Toyota Jidosha Kabushiki Kaisha","Telefonaktiebolaget Lm Ericsson (Publ)","Hon Hai Precision Industry Co., Ltd.","Gm Global Technology Operations Llc","Blackberry Limited","Hewlett-Packard Development Company, L.p.","Ricoh Company, Ltd.","Broadcom Corporation","Seiko Epson Corporation","Semiconductor Energy Laboratory Co., Ltd.","Micron Technology, Inc.","Monsanto Technology Llc","Sharp Kabushiki Kaisha","Pioneer Hi-Bred International, Inc.","Honda Motor Co., Ltd.","Cisco Technology, Inc.","Robert Bosch Gmbh","Hitachi, Ltd.","Nec Corporation","Fujifilm Corporation","Basf Se","The Boeing Company","Xerox Corporation","Siemens Aktiengesellschaft","Brother Kogyo Kabushiki Kaisha","Mitsubishi Electric Corporation","Electronics And Telecommunications Research Institute","Denso Corporation","Koninklijke Philips Electronics N.v.","Huawei Technologies Co., Ltd.","Texas Instruments Incorporated","Ford Global Technologies, Llc","Fuji Xerox Co., Ltd.","Honeywell International Inc.","Verizon Patent And Licensing Inc.","Alcatel Lucent","Marvell International Ltd.","Sk Hynix Inc.","Zte Corporation","Renesas Electronics Corporation","Nokia Corporation","Amazon Technologies, Inc.","3m Innovative Properties Company","Stmicroelectronics S.r.l.","Infineon Technologies Ag","Airbus Operations Gmbh","Oracle International Corporation","E. I. Du Pont De Nemours And Company","Lg Display Co., Ltd.","Freescale Semiconductor, Inc.","Hyundai Motor Company","The Procter &amp; Gamble Company","The Regents Of The University Of California","Emc Corporation","Industrial Technology Research Institute","Covidien Lp","Samsung Sdi Co., Ltd.","Konica Minolta, Inc.","Tokyo Electron Limited","Lsi Corporation","Lg Chem, Ltd.","Globalfoundries Inc.","Hong Fu Jin Precision Industry (Shenzhen) Co., Ltd.","Halliburton Energy Services, Inc.","Schlumberger Technology Corporation","Commissariat A L'energie Atomique","Lg Innotek Co., Ltd.","Sap Ag","Samsung Electro-Mechanics Co., Ltd.","Baker Hughes Incorporated","Applied Materials, Inc.","Kyocera Corporation","Adobe Systems Incorporated","Boehringer Ingelheim International Gmbh","United Technologies Corporation","Symantec Corporation","Thomson Licensing","Eastman Kodak Company","Raytheon Company","Nxp B.v.","Dow Global Technologies Llc","Shenzhen China Star Optoelectronics Technology Co., Ltd.","Sumitomo Electric Industries, Ltd."],[20669,16002,10276,9022,8113,7814,7440,6815,6292,6097,6073,5270,5167,5093,5028,4542,4441,4402,4311,4287,4208,4100,4042,4036,3936,3813,3807,3447,3411,3212,3124,3121,3031,2997,2793,2746,2653,2638,2624,2615,2591,2584,2465,2396,2316,2268,2205,2188,2185,2155,2129,2057,2037,2027,1981,1971,1961,1930,1871,1824,1764,1749,1696,1669,1650,1649,1623,1614,1582,1580,1571,1526,1516,1509,1484,1438,1424,1421,1398,1335,1313,1277,1275,1237,1203,1199,1146,1137,1130,1122,1119,1108,1104,1103,1100,1093,1068,1066,1064,1064]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Organization<\/th>\n      <th>Number of Patents (2014)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'color':'#010101', 'background-color' : ' #F98400 '});\n}","columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+</div>
+<div id="part-2-the-most-granted-patents-in-august-2014"
+class="section level1">
+<h1>Part 2: The most granted patents in August 2014</h1>
+<pre class="r"><code># Relevant data from the main database
+wrangled_aug &lt;- wrangled %&gt;% 
+                 select(organization, date) %&gt;%
+                
+                 filter(date &gt;= &quot;2014-08-01&quot; &amp; date &lt;= &quot;2014-08-31&quot;)
+
+Augusttop &lt;- sort(table(wrangled_aug$organization), decreasing=T)[1:100] %&gt;%
+              as.data.frame() %&gt;%
+              mutate(Var1 = Var1 %&gt;% str_to_title())
+
+
+color &lt;- toString(wes_palette(&quot;Darjeeling1&quot;, 4, type=&quot;discrete&quot;)[4])
+longString = paste(&quot;$(this.api().table().header()).css({&#39;color&#39;:&#39;#010101&#39;, &#39;background-color&#39; : &#39;&quot;, color, &quot;&#39;});&quot;)
+
+datatable(Augusttop, class = &#39;cell-border stripe&#39;, 
+          rownames = FALSE,
+          colnames = c(&#39;Organization&#39;, &#39;Number of Patents (Aug 2014&#39;),
+          options = list(initComplete = JS(&quot;function(settings, json) {&quot;,longString,&quot;}&quot;)))</code></pre>
+<div id="htmlwidget-a719286505540522ee45" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a719286505540522ee45">{"x":{"filter":"none","vertical":false,"data":[["International Business Machines Corporation","Samsung Electronics Co., Ltd.","Microsoft Corporation","Canon Kabushiki Kaisha","Sony Corporation","Qualcomm Incorporated","Google Inc.","Kabushiki Kaisha Toshiba","Apple Inc.","Hon Hai Precision Industry Co., Ltd.","Lg Electronics Inc.","Samsung Display Co., Ltd.","Taiwan Semiconductor Manufacturing Company, Ltd.","Telefonaktiebolaget Lm Ericsson (Publ)","Toyota Jidosha Kabushiki Kaisha","Intel Corporation","Fujitsu Limited","At&amp;T Intellectual Property I, L.p.","General Electric Company","Hewlett-Packard Development Company, L.p.","Broadcom Corporation","Gm Global Technology Operations Llc","Panasonic Corporation","Ricoh Company, Ltd.","Semiconductor Energy Laboratory Co., Ltd.","Blackberry Limited","Seiko Epson Corporation","Sharp Kabushiki Kaisha","Honda Motor Co., Ltd.","Micron Technology, Inc.","Nec Corporation","Brother Kogyo Kabushiki Kaisha","Electronics And Telecommunications Research Institute","Cisco Technology, Inc.","Hitachi, Ltd.","The Boeing Company","Siemens Aktiengesellschaft","Mitsubishi Electric Corporation","Fuji Xerox Co., Ltd.","Juniper Networks, Inc.","Koninklijke Philips Electronics N.v.","Robert Bosch Gmbh","Amazon Technologies, Inc.","Denso Corporation","Samsung Sdi Co., Ltd.","Xerox Corporation","Fujifilm Corporation","Zte Corporation","Renesas Electronics Corporation","Monsanto Technology Llc","Hong Fu Jin Precision Industry (Shenzhen) Co., Ltd.","Nokia Corporation","Sk Hynix Inc.","Ford Global Technologies, Llc","Tsinghua University","Verizon Patent And Licensing Inc.","Basf Se","Texas Instruments Incorporated","Pioneer Hi-Bred International, Inc.","Lsi Corporation","Alcatel Lucent","Emc Corporation","Oracle International Corporation","Marvell International Ltd.","Konica Minolta, Inc.","3m Innovative Properties Company","Covidien Lp","Airbus Operations Gmbh","Huawei Technologies Co., Ltd.","United Technologies Corporation","Honeywell International Inc.","Symantec Corporation","Thomson Licensing","Stmicroelectronics S.r.l.","Motorola Mobility Llc","Nxp B.v.","Kyocera Corporation","At&amp;T Mobility Ii Llc","Lg Display Co., Ltd.","Samsung Electro-Mechanics Co., Ltd.","Raytheon Company","Medtronic, Inc.","Tokyo Electron Limited","E. I. Du Pont De Nemours And Company","Industrial Technology Research Institute","The Regents Of The University Of California","Infineon Technologies Ag","Lg Chem, Ltd.","Shin-Etsu Chemical Co., Ltd.","Halliburton Energy Services, Inc.","Murata Manufacturing Co., Ltd.","Baker Hughes Incorporated","Globalfoundries Inc.","Kyocera Document Solutions Inc.","Chevron U.s.a. Inc.","Eastman Kodak Company","Freescale Semiconductor, Inc.","Igt","Syngenta Participations Ag","Sap Ag"],[1990,1361,876,854,666,639,627,584,568,546,522,478,472,462,447,445,439,427,375,375,372,356,346,328,328,313,304,293,285,285,280,271,270,258,256,249,247,233,225,223,212,210,207,205,205,204,200,198,193,191,185,184,182,177,177,177,168,168,165,161,159,158,157,154,152,149,149,147,147,144,136,136,124,122,121,121,120,119,119,116,114,113,112,111,111,111,108,108,108,107,106,105,103,103,102,99,99,98,98,97]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Organization<\/th>\n      <th>Number of Patents (Aug 2014<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'color':'#010101', 'background-color' : ' #F98400 '});\n}","columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
+<p>Done !!!</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

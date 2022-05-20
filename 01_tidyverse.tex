@@ -1,0 +1,215 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Affan's WebJournal},
+  pdfauthor={Muhammad Affan Qamar},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Affan's WebJournal}
+\author{Muhammad Affan Qamar}
+\date{30-04-2022}
+
+\begin{document}
+\maketitle
+
+\textbf{IMPORTANT:} You can delete everything in here and start fresh.
+You might want to start by not deleting anything above this line until
+you know what that stuff is doing.
+
+This is an \texttt{.Rmd} file. It is plain text with special features.
+Any time you write just like this, it will be compiled to normal text in
+the website. If you put a \# in front of your text, it will create a top
+level-header.
+
+\hypertarget{my-second-post-note-the-order}{%
+\section{My second post (note the
+order)}\label{my-second-post-note-the-order}}
+
+Last compiled: 2022-04-30
+
+\hypertarget{adding-r-stuff}{%
+\section{Adding R stuff}\label{adding-r-stuff}}
+
+So far this is just a blog where you can write in plain text and serve
+your writing to a webpage. One of the main purposes of this lab journal
+is to record your progress learning R. The reason I am asking you to use
+this process is because you can both make a website, and a lab journal,
+and learn R all in R-studio. This makes everything really convenient and
+in the same place.
+
+So, let's say you are learning how to make a histogram in R. For
+example, maybe you want to sample 100 numbers from a normal distribution
+with mean = 0, and standard deviation = 1, and then you want to plot a
+histogram. You can do this right here by using an r code block, like
+this:
+
+When you knit this R Markdown document, you will see that the histogram
+is printed to the page, along with the R code. This document can be set
+up to hide the R code in the webpage, just delete the comment (hashtag)
+from the cold folding option in the yaml header up top. For purposes of
+letting yourself see the code, and me see the code, best to keep it the
+way that it is. You'll learn that all of these things and more can be
+customized in each R code block.
+
+\hypertarget{tidying-data-with-pivot-longer}{%
+\section{Tidying Data With pivot
+longer}\label{tidying-data-with-pivot-longer}}
+
+diamonds2 \textless- readRDS(``C:/Users/Muhammad Affan
+Qamar/Downloads/diamonds2.rds'') diamonds2
+
+\hypertarget{tidying}{%
+\subsection{Tidying}\label{tidying}}
+
+diamonds2 \%\textgreater\% pivot\_longer(cols = c(``2008'', ``2009''),
+names\_to = `year', values\_to = `price') \%\textgreater\% head(n = 5)
+
+\hypertarget{tidying-data-with-pivot-wider}{%
+\section{Tidying Data With pivot
+wider}\label{tidying-data-with-pivot-wider}}
+
+diamonds3 \textless- readRDS(``C:/Users/Muhammad Affan
+Qamar/Downloads/diamonds3.rds'') diamonds3 \#\# Tidying diamonds3
+\%\textgreater\% pivot\_wider(names\_from = ``dimension'' , values\_from
+= ``measurement'') \%\textgreater\% head(n=5)
+
+\hypertarget{tidying-data-with-pivot-wider-separate}{%
+\section{Tidying Data With pivot wider separate
+()}\label{tidying-data-with-pivot-wider-separate}}
+
+diamonds4 \textless- readRDS(``C:/Users/Muhammad Affan
+Qamar/Downloads/diamonds4.rds'') diamonds4 \#\#Tidying diamonds4
+\%\textgreater\% separate(col = dim, into = c(``x'', ``y'', ``z''), sep
+= ``/'', convert = T)
+
+\hypertarget{tidying-data-with-pivot-wider-unite}{%
+\section{Tidying Data With pivot wider unite
+()}\label{tidying-data-with-pivot-wider-unite}}
+
+diamonds5 \textless- readRDS(``C:/Users/Muhammad Affan
+Qamar/Downloads/diamonds5.rds'') diamonds5 \#\# Tidying diamonds5
+\%\textgreater\% unite(clarity, clarity\_prefix, clarity\_suffix, sep =
+'\,')
+
+\hypertarget{transform}{%
+\section{Transform}\label{transform}}
+
+\hypertarget{filter-slice}{%
+\subsection{filter(), slice()}\label{filter-slice}}
+
+diamonds \%\textgreater\% filter(cut == `Ideal' \textbar{} cut ==
+`Premium', carat \textgreater= 0.23) \%\textgreater\% head(5) diamonds
+diamonds \%\textgreater\% filter(cut == `Ideal' \textbar{} cut ==
+`Premium', carat \textgreater= 0.23) \%\textgreater\% slice(3:4)
+diamonds
+
+\hypertarget{arrange}{%
+\subsection{arrange()}\label{arrange}}
+
+diamonds \%\textgreater\% arrange(cut, carat, desc(price))
+
+\hypertarget{select}{%
+\subsection{select()}\label{select}}
+
+diamonds \%\textgreater\% select(color, clarity, x:z) \%\textgreater\%
+head(n = 5)
+
+\hypertarget{exclusive-select}{%
+\subsubsection{Exclusive select}\label{exclusive-select}}
+
+diamonds \%\textgreater\% select(-(x:z)) \%\textgreater\% head(n = 5)
+
+\hypertarget{select-helpers}{%
+\subsubsection{Select helpers}\label{select-helpers}}
+
+\hypertarget{starts_with-ends_with}{%
+\subsection{starts\_with() / ends\_with()}\label{starts_with-ends_with}}
+
+\texttt{starts\_with()\ /\ ends\_with()} : helper that selects every
+column tht starts with a prefix or ends with a suffix
+
+\hypertarget{contains}{%
+\subsection{contains()}\label{contains}}
+
+\texttt{contains()} : A select helper that selects any column containing
+a string of text.
+
+\hypertarget{everything}{%
+\subsection{everything()}\label{everything}}
+
+\texttt{everything()} a select() helper that selects every column that
+has not already been selected. Good for reordering.
+
+´´´\{r\} select(x:z, everything()) \%\textgreater\% head(n = 5) ´´´ \#\#
+rename() \texttt{rename()}: changes the name of a column.`
+
+\hypertarget{mutate}{%
+\subsection{mutate()}\label{mutate}}
+
+\texttt{mutate()} adds new variables that are functions of existing
+variables and preserves existing ones.
+
+\hypertarget{transmute}{%
+\subsection{transmute()}\label{transmute}}
+
+\texttt{transmute()} adds new variables and drops existing ones.
+
+\end{document}
